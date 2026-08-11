@@ -1,5 +1,5 @@
 from pathlib import Path
-
+from typing import Literal
 from fastapi import APIRouter, File, HTTPException, UploadFile
 
 from app.schemas.upload import UploadResponse
@@ -14,7 +14,7 @@ ALLOWED_EXTENSIONS = {".pdf", ".txt"}
 
 
 @router.post("/upload", response_model=UploadResponse)
-async def upload_document(file: UploadFile = File(...)):
+async def upload_document(file: UploadFile = File(...),strategy: Literal["fixed", "recursive"] = "fixed",):
     extension = Path(file.filename).suffix.lower()
 
     if extension not in ALLOWED_EXTENSIONS:
@@ -26,6 +26,6 @@ async def upload_document(file: UploadFile = File(...)):
 
     with open(destination, "wb") as f:
         f.write(await file.read())
-    process_document(destination)
+    process_document(destination, strategy)
 
     return UploadResponse(filename=file.filename, message="File uploaded successfully.")

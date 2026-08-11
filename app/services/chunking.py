@@ -1,3 +1,5 @@
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+
 def fixed_chunking(
     text: str,
     chunk_size: int = 500,
@@ -18,3 +20,27 @@ def fixed_chunking(
             chunks.append(chunk)
 
     return chunks
+
+
+def recursive_chunking(
+    text: str,
+    chunk_size: int = 500,
+    chunk_overlap: int = 50,
+) -> list[str]:
+    """
+    Split text using recursive character chunking.
+    """
+
+    splitter = RecursiveCharacterTextSplitter(
+        chunk_size=chunk_size,
+        chunk_overlap=chunk_overlap,
+        separators=[
+            "\n\n",
+            "\n",
+            ". ",
+            " ",
+            ""
+        ],
+    )
+
+    return splitter.split_text(text)
