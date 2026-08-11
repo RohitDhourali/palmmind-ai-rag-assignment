@@ -3,6 +3,7 @@ from pathlib import Path
 from fastapi import APIRouter, File, HTTPException, UploadFile
 
 from app.schemas.upload import UploadResponse
+from app.services.orchestration import process_document
 
 router = APIRouter()
 
@@ -18,16 +19,13 @@ async def upload_document(file: UploadFile = File(...)):
 
     if extension not in ALLOWED_EXTENSIONS:
         raise HTTPException(
-            status_code=400,
-            detail="Only PDF and TXT files are allowed."
+            status_code=400, detail="Only PDF and TXT files are allowed."
         )
 
     destination = UPLOAD_DIR / file.filename
 
     with open(destination, "wb") as f:
         f.write(await file.read())
+    process_document(destination)
 
-    return UploadResponse(
-        filename=file.filename,
-        message="File uploaded successfully."
-    )
+    return UploadResponse(filename=file.filename, message="File uploaded successfully.")
