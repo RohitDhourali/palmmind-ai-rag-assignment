@@ -2,7 +2,7 @@ from pathlib import Path
 import pymupdf # PyMuPDF
 
 
-def extract_text(file_path: Path) -> str:
+def extract_text(file_path: Path):
     """
     Extract text from a PDF or TXT file.
     """
@@ -23,7 +23,9 @@ def extract_text(file_path: Path) -> str:
 
         document.close()
 
-        return text
-
+         
     else:
         raise ValueError("Unsupported file type.")
+    print("Text extraction completed.") 
+    return text
+    

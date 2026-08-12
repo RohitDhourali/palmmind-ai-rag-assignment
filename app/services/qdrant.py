@@ -3,7 +3,6 @@ from uuid import uuid4
 from qdrant_client import QdrantClient
 from qdrant_client.models import Distance, PointStruct, VectorParams
 
-
 client = QdrantClient(host="localhost", port=6333)
 
 COLLECTION_NAME = "documents"
@@ -28,9 +27,9 @@ def create_collection() -> None:
 
 
 def store_embeddings(
-    chunks: list[str],
-    embeddings: list[list[float]],
-) -> None:
+    chunks,
+    embeddings
+):
     """
     Store text chunks and their embeddings in Qdrant.
     """
@@ -53,5 +52,3 @@ def store_embeddings(
         points=points,
     )
     print("\nIngestion Complete!")
-
-    

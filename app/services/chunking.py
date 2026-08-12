@@ -19,6 +19,7 @@ def fixed_chunking(
         if chunk:
             chunks.append(chunk)
 
+    print(f"Total chunks created with fixed chunking: {len(chunks)}")
     return chunks
 
 
@@ -42,5 +43,6 @@ def recursive_chunking(
             ""
         ],
     )
-
-    return splitter.split_text(text)
+    chunks = splitter.split_text(text)
+    print(f"Total chunks created with recursive chunking: {len(chunks)}")
+    return chunks
