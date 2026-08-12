@@ -6,6 +6,7 @@ from app.services.redis_memory import (
     append_message,
     get_history
 )
+from app.services.query_rewriter import rewrite_query
 
 client = QdrantClient(
     host="localhost",
@@ -40,16 +41,29 @@ def retrieve(query, limit=5):
 
 def ask(session_id: str, question: str):
 
-    # Load previous conversation
+    # Load conversation history
     history = get_history(session_id)
 
-    # Retrieve relevant documents
-    context = retrieve(question)
+    # Rewrite the question
+    rewritten_question = rewrite_query(question, history)
 
-    # Generate answer
-    answer = generate(question, context, history)
+    print("\nOriginal Question:")
+    print(question)
 
-    # Save current conversation
+    print("\nRewritten Question:")
+    print(rewritten_question)
+
+    # Retrieve using rewritten question
+    context = retrieve(rewritten_question)
+
+    # Generate final answer
+    answer = generate(
+        question,
+        context,
+        history,
+    )
+
+    # Save conversation
     append_message(session_id, "user", question)
     append_message(session_id, "assistant", answer)
 
