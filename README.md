@@ -196,7 +196,7 @@ Example request:
 ```json
 {
     "session_id": "rag_demo",
-    "question": "What is FastAPI?"
+    "question": "What is Aluminium hydroxide?"
 }
 ```
 
@@ -205,7 +205,7 @@ Example follow-up:
 ```json
 {
     "session_id": "rag_demo",
-    "question": "Explain it in simple words."
+    "question": "Explain it's in usage."
 }
 ```
 

@@ -1,8 +1,8 @@
 from pathlib import Path
-from app.services.chunking import fixed_chunking, recursive_chunking
-from app.services.embeddings import create_embeddings
-from app.services.parser import extract_text
-from app.services.qdrant import store_embeddings
+from app.services.RAG.chunking import fixed_chunking, recursive_chunking
+from app.services.RAG.embeddings import create_embeddings
+from app.services.RAG.parser import extract_text
+from app.services.RAG.qdrant import store_embeddings
 from app.database.document_repository import save_document
 
 

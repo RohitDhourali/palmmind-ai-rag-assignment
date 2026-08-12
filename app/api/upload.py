@@ -3,7 +3,7 @@ from typing import Literal
 from fastapi import APIRouter, File, HTTPException, UploadFile
 
 from app.schemas.upload import UploadResponse
-from app.services.orchestration import process_document
+from app.services.RAG.orchestration import process_document
 
 router = APIRouter()
 

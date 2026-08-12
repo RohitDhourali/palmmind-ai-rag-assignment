@@ -1,7 +1,7 @@
 import json
 
 
-from app.services.booking import save_booking
+from app.services.interview_booker.booking import save_booking
 from app.services.redis_memory import (
     append_message,
     get_booking,
@@ -141,7 +141,7 @@ def handle_booking(session_id: str, message: str):
         
 
         reply = (
-            "Your interview has been booked successfully!"
+            "Congratulations! Your interview has been booked successfully!"
         )
 
     # Save assistant response

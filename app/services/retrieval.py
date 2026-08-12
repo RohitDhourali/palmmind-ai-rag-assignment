@@ -1,15 +1,15 @@
 from qdrant_client import QdrantClient
 
 from app.services import intent
-from app.services.embeddings import create_embeddings
-from app.services.llm import generate
+from app.services.RAG.embeddings import create_embeddings
+from app.services.RAG.llm import generate
 from app.services.redis_memory import (
     append_message,
     get_history
 )
 from app.services.query_rewriter import rewrite_query
 from app.services.intent import detect_intent
-from app.services.booking_agent import handle_booking
+from app.services.interview_booker.booking_agent import handle_booking
 from app.services.redis_memory import is_booking_active
 
 client = QdrantClient(
