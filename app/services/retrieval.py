@@ -1,5 +1,6 @@
 from qdrant_client import QdrantClient
 
+from app.services import intent
 from app.services.embeddings import create_embeddings
 from app.services.llm import generate
 from app.services.redis_memory import (
@@ -7,6 +8,9 @@ from app.services.redis_memory import (
     get_history
 )
 from app.services.query_rewriter import rewrite_query
+from app.services.intent import detect_intent
+from app.services.booking_agent import handle_booking
+from app.services.redis_memory import is_booking_active
 
 client = QdrantClient(
     host="localhost",
@@ -40,7 +44,17 @@ def retrieve(query, limit=5):
 
 
 def ask(session_id: str, question: str):
+    if is_booking_active(session_id):
+        return handle_booking(session_id, question)
+    intent = detect_intent(question)
+    
 
+    print("\n========== INTENT ==========")
+    print(intent)
+    print("============================") 
+    if intent == "interview_booking":
+        return handle_booking(session_id, question)
+   
     # Load conversation history
     history = get_history(session_id)
 

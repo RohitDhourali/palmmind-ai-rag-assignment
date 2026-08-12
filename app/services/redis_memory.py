@@ -55,3 +55,54 @@ def clear_history(session_id: str):
 
     key = f"chat:{session_id}"
     redis_client.delete(key)
+def get_booking(session_id: str):
+
+    key = f"booking:{session_id}"
+
+    booking = redis_client.get(key)
+
+    if booking:
+        return json.loads(booking)
+
+    return {
+        "name": None,
+        "email": None,
+        "date": None,
+        "time": None,
+    }
+
+
+def save_booking_state(session_id: str, booking: dict):
+
+    key = f"booking:{session_id}"
+
+    redis_client.set(
+        key,
+        json.dumps(booking)
+    )
+
+
+def clear_booking(session_id: str):
+
+    key = f"booking:{session_id}"
+
+    redis_client.delete(key)
+def start_booking(session_id: str):
+
+    key = f"booking_active:{session_id}"
+
+    redis_client.set(key, "true")
+
+
+def is_booking_active(session_id: str):
+
+    key = f"booking_active:{session_id}"
+
+    return redis_client.exists(key) == 1
+
+
+def stop_booking(session_id: str):
+
+    key = f"booking_active:{session_id}"
+
+    redis_client.delete(key)
