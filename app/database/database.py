@@ -24,4 +24,16 @@ def initialize_database() -> None:
     """)
 
     conn.commit()
+    cursor.execute("""
+CREATE TABLE IF NOT EXISTS interview_bookings (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    email TEXT NOT NULL,
+    date TEXT NOT NULL,
+    time TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)
+""")
+
+    conn.commit()
     conn.close()
