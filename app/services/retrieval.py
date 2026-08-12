@@ -2,6 +2,10 @@ from qdrant_client import QdrantClient
 
 from app.services.embeddings import create_embeddings
 from app.services.llm import generate
+from app.services.redis_memory import (
+    append_message,
+    get_history
+)
 
 client = QdrantClient(
     host="localhost",
@@ -34,7 +38,19 @@ def retrieve(query, limit=5):
 
 
 
-def ask(question: str):
+def ask(session_id: str, question: str):
+
+    # Load previous conversation
+    history = get_history(session_id)
+
+    # Retrieve relevant documents
     context = retrieve(question)
-    answer = generate(question, context)
+
+    # Generate answer
+    answer = generate(question, context, history)
+
+    # Save current conversation
+    append_message(session_id, "user", question)
+    append_message(session_id, "assistant", answer)
+
     return answer

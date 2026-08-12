@@ -10,7 +10,10 @@ router = APIRouter()
 @router.post("/chat", response_model=ChatResponse)
 def chat(request: ChatRequest):
 
-    answer =ask(request.question)
+    answer = ask(
+    request.session_id,
+    request.question
+)
 
     return ChatResponse(
         answer=answer
